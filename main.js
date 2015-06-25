@@ -34,7 +34,7 @@ function responseHandler(req, res) {
       res.end(data);
     });
   }else if(req.url.match(markdownRegex)){
-    var md2process = decodeURI(req.url.replace(markdownRegex, ''));
+    var md2process = decodeURIComponent(req.url.replace(markdownRegex, ''));
     res.end(marked(md2process));
   }
   else{
