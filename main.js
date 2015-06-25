@@ -2,13 +2,9 @@ var fs = require("fs"),
   http = require("http"),
   request = require('request'),
   url = require('url'),
-  marked = require('marked'),
-  Firebase = require('firebase');
+  marked = require('marked');
 
 http.createServer(responseHandler).listen(process.env.PORT || 8888);
-var ref = new Firebase("https://markdown-renderer.firebaseio.com/");
-var mdRef = ref.child('markdown');
-var htmlRef = ref.child('html');
 
 marked.setOptions({
   renderer: new marked.Renderer(),
