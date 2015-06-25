@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/1.1.1/angularfire.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=PT+Mono|Open+Sans' rel='stylesheet' type='text/css'>
+    <script>
+      var app = angular.module("markdown", []);
+      app.controller("MarkdownController", function($scope, $http, $sce){
+        $scope.getHtml = function(){
+          $http.get('/markdown/' + $scope.markdown)
+          .success(function(data){
+            $scope.html = $sce.trustAsHtml(data);
+            console.log(data);
+          })
+          .error(function(error){
+            console.log(error);
+          });
+        }
+        });
+  </script>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+    }
+    h1{
+      font-family: 'PT Mono', 'Helvetica', sans-serif;
+    }
+    p,input,#preview{
+      font-family: 'Open Sans', 'Helvetica', sans-serif;
+    }
+    #markdown{
+      width:480px;
+      height:522px;
+      font-size:14px;
+      border:1px solid black;
+      float:left;
+      padding:10px;
+    }
+    #preview{
+      width:480px;
+      height:500px;
+      border:1px solid black;
+      float:left;
+      padding:10px;
+    }
+    .container{
+      width:1005px;
+      margin: 0 auto;
+    }
+    .center-text{
+      text-align:center;
+    }
+    #header{
+      margin:40px;
+    }
+  </style>
+  </head>
+  <body ng-app="markdown">
+    <div class="container" ng-controller="MarkdownController">
+      <div id="header" class="center-text">
+        <h1>Fake Ghost: A Markdown Renderer</h1>
+        <p>Write some markdown on the left. Get html on the right.</p>
+        <p>Built with Angular and Node.</p>
+      </div>
+      <div id='editor'>
+        <textarea id="markdown" ng-keyup="getHtml()" ng-model="markdown"></textarea>
+        <!-- <div id="preview" ng-bind-html='html'></div> -->
+        <div id="preview" ng-bind-html='html'></div>
+      </div>
+    </div>
+  </body>
+</html>
